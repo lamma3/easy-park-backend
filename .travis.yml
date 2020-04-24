@@ -6,4 +6,4 @@ jdk:
 jobs:
   include:
     - stage: test
-      script: ./mvnw test
+      script: chmod 777 ./mvnw && ./mvnw test
