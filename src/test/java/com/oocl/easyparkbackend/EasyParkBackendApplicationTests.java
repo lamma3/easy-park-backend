@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class EasyParkBackendApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void should_run_the_test_success() {
+
 	}
 
 }
