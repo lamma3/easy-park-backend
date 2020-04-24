@@ -20,8 +20,11 @@ public class ParkingLotController {
     }
 
     @GetMapping("/{parkingLotId}")
-    public ParkingLot findEmployeeById(@PathVariable("parkingLotId") Integer parkingLotId) {
+    public ParkingLot findParkingLotById(@PathVariable("parkingLotId") Integer parkingLotId) {
         return service.findParkingLotById(parkingLotId);
     }
+
+    
+
 
 }
