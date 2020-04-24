@@ -23,4 +23,8 @@ public class ParkingLotRepository {
     public List<ParkingLot> findAll() {
         return parkingLotList;
     }
+
+    public ParkingLot findById(Integer parkingLotId) {
+        return this.parkingLotList.stream().filter((parkingLot -> parkingLot.getParkingLotId().equals(parkingLotId))).findFirst().get();
+    }
 }

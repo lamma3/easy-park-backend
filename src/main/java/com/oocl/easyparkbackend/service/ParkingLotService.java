@@ -15,4 +15,9 @@ public class ParkingLotService {
     public List<ParkingLot> findAll() {
         return repository.findAll();
     }
+
+    public ParkingLot findParkingLotById(Integer parkingLotId) {
+        return repository.findById(parkingLotId);
+
+    }
 }

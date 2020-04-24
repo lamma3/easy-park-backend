@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Type;
@@ -35,9 +34,9 @@ public class ParkingLotControllerTest {
         RestAssuredMockMvc.standaloneSetup(parkingLotController);
 
         parkingLotList = new ArrayList<>();
-        parkingLotList.add(new ParkingLot(1,"A",10,10));
-        parkingLotList.add(new ParkingLot(2,"B",10,10));
-        parkingLotList.add(new ParkingLot(3,"C",10,10));
+        parkingLotList.add(new ParkingLot(1, "A", 10, 10));
+        parkingLotList.add(new ParkingLot(2, "B", 10, 10));
+        parkingLotList.add(new ParkingLot(3, "C", 10, 10));
 
     }
 
@@ -53,6 +52,18 @@ public class ParkingLotControllerTest {
                 return super.getType();
             }
         });
-        Assert.assertEquals(3,parkingLots.size());
+        Assert.assertEquals(3, parkingLots.size());
+    }
+
+
+    @Test
+    public void should_return_parking_lot_by_id() {
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .when()
+                .get("/parking-lots/1");
+
+        ParkingLot parkingLot = response.getBody().as(ParkingLot.class);
+        Assert.assertEquals("A", parkingLot.getParkingLotName());
+
     }
 }
