@@ -4,7 +4,9 @@ language: java
 jdk:
   - openjdk8
 
-script:
-  - chmod 777 ./mvnw
+before_install:
+  - chmod +x ./mvnw
   - ./mvnw install
+
+script:
   - ./mvnw test
