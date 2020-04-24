@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParkingLot {
-    private Integer parkingLotID;
+    private Integer parkingLotId;
     private String parkingLotName;
     private Integer totalCapacity;
     private Integer availableCapacity;
