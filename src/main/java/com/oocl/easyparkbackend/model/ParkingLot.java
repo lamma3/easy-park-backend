@@ -6,8 +6,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ParkingLot {
-    private Integer parkingLotId;
-    private String parkingLotName;
+    private Integer id;
+    private String name;
     private Integer totalCapacity;
     private Integer availableCapacity;
 }

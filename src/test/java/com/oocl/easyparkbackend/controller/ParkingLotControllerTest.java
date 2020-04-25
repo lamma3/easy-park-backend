@@ -63,7 +63,7 @@ public class ParkingLotControllerTest {
                 .get("/parking-lots/1");
 
         ParkingLot parkingLot = response.getBody().as(ParkingLot.class);
-        Assert.assertEquals("A", parkingLot.getParkingLotName());
+        Assert.assertEquals("A", parkingLot.getName());
 
     }
 }

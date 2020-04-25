@@ -25,6 +25,6 @@ public class ParkingLotRepository {
     }
 
     public ParkingLot findById(Integer parkingLotId) {
-        return this.parkingLotList.stream().filter((parkingLot -> parkingLot.getParkingLotId().equals(parkingLotId))).findFirst().get();
+        return this.parkingLotList.stream().filter((parkingLot -> parkingLot.getId().equals(parkingLotId))).findFirst().get();
     }
 }
