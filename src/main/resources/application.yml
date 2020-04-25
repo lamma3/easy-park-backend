@@ -9,6 +9,11 @@ spring:
     hibernate:
       ddl-auto: none
 
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
 env:
   frontend:
     url: http://localhost:3000
