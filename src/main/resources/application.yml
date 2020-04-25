@@ -2,9 +2,13 @@ spring:
   h2:
     console:
       enabled: true
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    driverClassName: org.h2.Driver
   datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
+    url: jdbc:postgresql://ec2-34-225-82-212.compute-1.amazonaws.com:5432/d6dmm9j60cskhf
+    username: ipiwgawjdcgplv
+    password: 8960f31fa5f028963846d58cc55ef7bc18732cf75635dc5b4f0e150f3fdd4f81
   jpa:
     hibernate:
       ddl-auto: none
