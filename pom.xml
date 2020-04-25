@@ -100,11 +100,6 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<configuration>
-					<url>jdbc:postgresql://ec2-34-225-82-212.compute-1.amazonaws.com:5432/d6dmm9j60cskhf</url>
-					<user>ipiwgawjdcgplv</user>
-					<password>8960f31fa5f028963846d58cc55ef7bc18732cf75635dc5b4f0e150f3fdd4f81</password>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
