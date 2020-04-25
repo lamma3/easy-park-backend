@@ -79,6 +79,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.10.19</version>
@@ -97,8 +101,7 @@
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
-					<url>jdbc:h2:mem:testdb</url>
-					<user>sa</user>
+					<url>postgres://ipiwgawjdcgplv:8960f31fa5f028963846d58cc55ef7bc18732cf75635dc5b4f0e150f3fdd4f81@ec2-34-225-82-212.compute-1.amazonaws.com:5432/d6dmm9j60cskhf</url>
 				</configuration>
 			</plugin>
 			<plugin>
