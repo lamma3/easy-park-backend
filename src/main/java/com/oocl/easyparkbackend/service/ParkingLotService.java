@@ -17,7 +17,7 @@ public class ParkingLotService {
     }
 
     public ParkingLot findParkingLotById(Integer parkingLotId) {
-        return repository.findById(parkingLotId);
+        return repository.findById(parkingLotId).orElse(null);
 
     }
 }
