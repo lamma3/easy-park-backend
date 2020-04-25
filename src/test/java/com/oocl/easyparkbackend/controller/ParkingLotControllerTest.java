@@ -10,20 +10,27 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@AutoConfigureMockMvc
 public class ParkingLotControllerTest {
 
+    @Autowired
+    private MockMvc mvc;
     @Autowired
     private ParkingLotController parkingLotController;
 
@@ -38,6 +45,24 @@ public class ParkingLotControllerTest {
         parkingLotList.add(new ParkingLot(2, "B", 10, 10));
         parkingLotList.add(new ParkingLot(3, "C", 10, 10));
 
+    }
+
+    @Test
+    public void should_allow_frontend_to_call_api() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                .get("/parking-lots")
+                .header("Access-Control-Request-Method", "GET")
+                .header("Origin", "http://localhost:3000"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void should_not_allow_unknown_host_to_call_api() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                .get("/parking-lots")
+                .header("Access-Control-Request-Method", "GET")
+                .header("Origin", "http://unknown"))
+                .andExpect(status().isForbidden());
     }
 
     @Test

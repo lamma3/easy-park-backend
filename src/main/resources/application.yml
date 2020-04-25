@@ -1,4 +1,19 @@
 spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: none
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+env:
+  frontend:
+    url: http://localhost:3000
