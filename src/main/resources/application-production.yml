@@ -2,3 +2,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+env:
+  frontend:
+    url: https://fathomless-wildwood-45075.herokuapp.com
