@@ -41,11 +41,11 @@ public class ParkingLotControllerTest {
         RestAssuredMockMvc.standaloneSetup(parkingLotController);
 
         parkingLotList = new ArrayList<>();
-        parkingLotList.add(new ParkingLot(1, "A", 10, 10));
-        parkingLotList.add(new ParkingLot(2, "B", 10, 10));
-        parkingLotList.add(new ParkingLot(3, "C", 10, 10));
-
+        parkingLotList.add(new ParkingLot(1, "A", 10, 10, 10.0, 2.0, 2.0));
+        parkingLotList.add(new ParkingLot(2, "B", 10, 10, 20.0, 0.0, 0.0));
+        parkingLotList.add(new ParkingLot(3, "C", 10, 10, 30.0, 0.0, 0.0));
     }
+
 
     @Test
     public void should_allow_frontend_to_call_api() throws Exception {

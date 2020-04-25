@@ -19,4 +19,9 @@ public class ParkingLot {
     private String name;
     private Integer totalCapacity;
     private Integer availableCapacity;
+    private Double hourRate;
+    private Double distance;
+    private Double rating;
+
+
 }
