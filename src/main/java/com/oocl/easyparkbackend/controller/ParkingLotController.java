@@ -15,11 +15,11 @@ public class ParkingLotController {
     private ParkingLotService service;
 
     @GetMapping
-    public List<ParkingLot> getParkingLots(@RequestParam(required = false) Double minHourRate,
-                                           @RequestParam(required = false) Double maxHourRate,
-                                           @RequestParam(required = false) Double maxDistance,
-                                           @RequestParam(required = false) Boolean sortRatingFromHighToLow) {
-        return service.findAll(minHourRate, maxHourRate, maxDistance, sortRatingFromHighToLow);
+    public List<ParkingLot> getParkingLots(@RequestParam(required = false) Double priceFrom,
+                                           @RequestParam(required = false) Double priceTo,
+                                           @RequestParam(required = false) Double distance,
+                                           @RequestParam(required = false) String ratingOrder) {
+        return service.findAll(priceFrom, priceTo, distance, ratingOrder);
     }
 
     @GetMapping("/{parkingLotId}")
