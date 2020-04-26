@@ -145,4 +145,35 @@ public class ParkingLotControllerTest {
                 .content("{\"score\": 4}"))
                 .andExpect(jsonPath("$.message", is("Parking lot id 3 not found.")));
     }
+
+    @Test
+    public void should_return_correct_average_score_after_adding_new_rating() throws Exception {
+        ParkingLot originalParkingLot = new ParkingLot(3, null, null, null, null, null, 3.0);
+        ParkingLot updatedParkingLot = new ParkingLot(3, null, null, null, null, null, 3.5);
+        Mockito.when(parkingLotRepository.findById(3))
+                .thenReturn(Optional.of(originalParkingLot));
+        Mockito.when(parkingLotRepository.save(Mockito.any()))
+                .thenReturn(updatedParkingLot);
+
+        Rating savedRating = new Rating(2, 4.0, 3, null);
+        Mockito.when(ratingRepository.save(Mockito.any()))
+                .thenReturn(savedRating);
+
+        Rating existedRating = new Rating(1, 3.0, 3, null);
+        List<Rating> ratings = new ArrayList<>();
+        ratings.add(existedRating);
+        ratings.add(savedRating);
+        Mockito.when(ratingRepository.findAll())
+                .thenReturn(ratings);
+
+        mvc.perform(MockMvcRequestBuilders
+                .post("/parking-lots/3/ratings")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"score\": 4}"))
+                .andExpect(jsonPath("$.id", is(2)))
+                .andExpect(jsonPath("$.score", is(4.0)))
+                .andExpect(jsonPath("$.parkingLotId", is(3)))
+                .andExpect(jsonPath("$.parkingLot.id", is(3)))
+                .andExpect(jsonPath("$.parkingLot.rating", is(3.5)));
+    }
 }
