@@ -17,10 +17,19 @@ public class ParkingLot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Integer totalCapacity;
-    private Integer availableCapacity;
+    private String address;
+    private Double latitude;
+    private Double longitude;
     private Double hourRate;
     private Double distance;
+    private Integer totalCapacity;
+    private Integer availableCapacity;
+    private Integer occupiedCapacity;
+    private Integer reservedCapacity;
+    private Integer totalChargeCapacity;
+    private Integer availableChargeCapacity;
+    private Integer occupiedChargeCapacity;
+    private Integer reservedChargeCapacity;
     private Double rating;
 
 

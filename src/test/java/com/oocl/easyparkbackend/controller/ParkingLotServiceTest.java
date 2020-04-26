@@ -76,9 +76,9 @@ public class ParkingLotServiceTest {
         parkingLotService = new ParkingLotService(entityManager);
 
         parkingLotList = new ArrayList<>();
-        parkingLotList.add(new ParkingLot(1, "A", 10, 10, 10.0, 100.0, 2.0));
-        parkingLotList.add(new ParkingLot(2, "B", 10, 10, 20.0, 200.0, 4.0));
-        parkingLotList.add(new ParkingLot(3, "C", 10, 10, 30.0, 300.0, 5.0));
+        parkingLotList.add(new ParkingLot(1,"A","AddressA",111.111111,111.111111,56.5,100.0,10,10,0,0,0,0,0,0,1.0));
+        parkingLotList.add(new ParkingLot(2,"B","AddressB",222.222222,222.222222,60.5,200.0,10,10,0,0,0,0,0,0,2.0));
+        parkingLotList.add(new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,3.0));
 
         parkingLot = parkingLotList.get(0);
 
