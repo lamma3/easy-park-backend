@@ -22,7 +22,7 @@ public class RatingService {
     @Transactional
     public Rating createRating(Integer parkingLotId, Rating newRating) {
         ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId)
-                .orElseThrow(() -> new ParkingLotNotFoundException(parkingLotId));
+                .orElseThrow(ParkingLotNotFoundException::new);
 
         newRating.setParkingLotId(parkingLot.getId());
         Rating savedRating = ratingRepository.save(newRating);

@@ -81,6 +81,9 @@ public class ParkingLotControllerTest {
 
     @Test
     public void should_return_all_parking_lots() {
+        Mockito.when(parkingLotRepository.findById(1))
+                .thenReturn(Optional.of(parkingLotList.get(0)));
+
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .when()
                 .get("/parking-lots");
@@ -97,6 +100,9 @@ public class ParkingLotControllerTest {
 
     @Test
     public void should_return_parking_lot_by_id() {
+        Mockito.when(parkingLotRepository.findById(1))
+                .thenReturn(Optional.of(parkingLotList.get(0)));
+
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .when()
                 .get("/parking-lots/1");
@@ -119,6 +125,11 @@ public class ParkingLotControllerTest {
         Rating savedRating = new Rating(1, 4.0, 3, null);
         Mockito.when(ratingRepository.save(Mockito.any()))
                 .thenReturn(savedRating);
+
+        List<Rating> ratings = new ArrayList<>();
+        ratings.add(savedRating);
+        Mockito.when(ratingRepository.findAllByParkingLotId(3))
+                .thenReturn(ratings);
 
         mvc.perform(MockMvcRequestBuilders
                 .post("/parking-lots/3/ratings")
@@ -143,7 +154,7 @@ public class ParkingLotControllerTest {
                 .post("/parking-lots/3/ratings")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"score\": 4}"))
-                .andExpect(jsonPath("$.message", is("Parking lot id 3 not found.")));
+                .andExpect(jsonPath("$.message", is("Parking lot not found.")));
     }
 
     @Test
@@ -163,7 +174,7 @@ public class ParkingLotControllerTest {
         List<Rating> ratings = new ArrayList<>();
         ratings.add(existedRating);
         ratings.add(savedRating);
-        Mockito.when(ratingRepository.findAll())
+        Mockito.when(ratingRepository.findAllByParkingLotId(3))
                 .thenReturn(ratings);
 
         mvc.perform(MockMvcRequestBuilders
@@ -175,5 +186,7 @@ public class ParkingLotControllerTest {
                 .andExpect(jsonPath("$.parkingLotId", is(3)))
                 .andExpect(jsonPath("$.parkingLot.id", is(3)))
                 .andExpect(jsonPath("$.parkingLot.rating", is(3.5)));
+
+        Mockito.verify(parkingLotRepository, Mockito.times(1)).save(updatedParkingLot);
     }
 }
