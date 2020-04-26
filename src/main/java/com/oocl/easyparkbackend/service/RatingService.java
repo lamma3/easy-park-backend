@@ -1,5 +1,6 @@
 package com.oocl.easyparkbackend.service;
 
+import com.oocl.easyparkbackend.exception.ParkingLotNotFoundException;
 import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.model.Rating;
 import com.oocl.easyparkbackend.repository.ParkingLotRepository;
@@ -20,10 +21,8 @@ public class RatingService {
 
     @Transactional
     public Rating createRating(Integer parkingLotId, Rating newRating) {
-        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElse(null);
-        if (parkingLot == null) {
-            return null;
-        }
+        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId)
+                .orElseThrow(() -> new ParkingLotNotFoundException(parkingLotId));
 
         newRating.setParkingLotId(parkingLot.getId());
         Rating savedRating = ratingRepository.save(newRating);
