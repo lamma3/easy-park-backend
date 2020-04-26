@@ -1,6 +1,9 @@
 package com.oocl.easyparkbackend.controller;
 
 import com.oocl.easyparkbackend.model.ParkingLot;
+import com.oocl.easyparkbackend.model.Rating;
+import com.oocl.easyparkbackend.repository.ParkingLotRepository;
+import com.oocl.easyparkbackend.repository.RatingRepository;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
@@ -9,9 +12,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,8 +24,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -33,6 +41,11 @@ public class ParkingLotControllerTest {
     private MockMvc mvc;
     @Autowired
     private ParkingLotController parkingLotController;
+
+    @MockBean
+    private ParkingLotRepository parkingLotRepository;
+    @MockBean
+    private RatingRepository ratingRepository;
 
     List<ParkingLot> parkingLotList;
 
@@ -90,5 +103,32 @@ public class ParkingLotControllerTest {
         ParkingLot parkingLot = response.getBody().as(ParkingLot.class);
         Assert.assertEquals("A", parkingLot.getName());
 
+    }
+
+    @Test
+    public void should_return_new_score_after_adding_new_rating() throws Exception {
+        ParkingLot originalParkingLot = new ParkingLot(3, null, null, null, null, null, 0.0);
+        ParkingLot updatedParkingLot = new ParkingLot(3, null, null, null, null, null, 4.0);
+        Mockito.when(parkingLotRepository.findById(3))
+                .thenReturn(Optional.of(originalParkingLot));
+        Mockito.when(parkingLotRepository.save(Mockito.any()))
+                .thenReturn(updatedParkingLot);
+
+        Rating preSaveRating = new Rating(null, 4.0, 3, null);
+        Rating savedRating = new Rating(1, 4.0, 3, null);
+        Mockito.when(ratingRepository.save(Mockito.any()))
+                .thenReturn(savedRating);
+
+        mvc.perform(MockMvcRequestBuilders
+                .post("/parking-lots/3/ratings")
+                .content("{\"score\": 4}"))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.score", is(4.0)))
+                .andExpect(jsonPath("$.parkingLotId", is(3)))
+                .andExpect(jsonPath("$.parkingLot.id", is(3)))
+                .andExpect(jsonPath("$.parkingLot.averageScore", is(4)));
+
+        Mockito.verify(parkingLotRepository, Mockito.times(1)).save(updatedParkingLot);
+        Mockito.verify(ratingRepository, Mockito.times(1)).save(preSaveRating);
     }
 }
