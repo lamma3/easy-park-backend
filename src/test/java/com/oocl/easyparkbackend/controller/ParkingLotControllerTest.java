@@ -133,4 +133,16 @@ public class ParkingLotControllerTest {
         Mockito.verify(parkingLotRepository, Mockito.times(1)).save(updatedParkingLot);
         Mockito.verify(ratingRepository, Mockito.times(1)).save(preSaveRating);
     }
+
+    @Test
+    public void should_return_error_message_when_parking_lot_not_found() throws Exception {
+        Mockito.when(parkingLotRepository.findById(3))
+                .thenReturn(Optional.empty());
+
+        mvc.perform(MockMvcRequestBuilders
+                .post("/parking-lots/3/ratings")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"score\": 4}"))
+                .andExpect(jsonPath("$.message", is("Parking lot id 3 not found.")));
+    }
 }
