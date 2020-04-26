@@ -1,6 +1,7 @@
 package com.oocl.easyparkbackend.controller;
 
 import com.oocl.easyparkbackend.model.ParkingLot;
+import com.oocl.easyparkbackend.model.ParkingLotBooking;
 import com.oocl.easyparkbackend.model.Rating;
 import com.oocl.easyparkbackend.repository.ParkingLotRepository;
 import com.oocl.easyparkbackend.repository.RatingRepository;
@@ -188,5 +189,17 @@ public class ParkingLotControllerTest {
                 .andExpect(jsonPath("$.parkingLot.rating", is(3.5)));
 
         Mockito.verify(parkingLotRepository, Mockito.times(1)).save(updatedParkingLot);
+    }
+
+    @Test
+    public void should_return_booking_record_after_create_booking() throws Exception {
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .when()
+                .post("/parking-lots/1/bookings");
+
+        ParkingLotBooking parkingLotBooking = response.getBody().as(ParkingLotBooking.class);
+        Assert.assertEquals(201, response.getStatusCode());
+        Assert.assertEquals(Integer.valueOf(1), parkingLotBooking.getParkingLotId());
+        Assert.assertEquals(Integer.valueOf(1), parkingLotBooking.getParkingLot().getId());
     }
 }

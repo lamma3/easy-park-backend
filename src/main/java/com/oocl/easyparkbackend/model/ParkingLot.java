@@ -12,7 +12,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Entity
 public class ParkingLot {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,6 +21,4 @@ public class ParkingLot {
     private Double hourRate;
     private Double distance;
     private Double rating;
-
-
 }
