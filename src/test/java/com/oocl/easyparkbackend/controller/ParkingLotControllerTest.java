@@ -193,6 +193,8 @@ public class ParkingLotControllerTest {
 
     @Test
     public void should_return_booking_record_after_create_booking() throws Exception {
+        Mockito.when(parkingLotRepository.findById(1))
+                .thenReturn(Optional.of(parkingLotList.get(0)));
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .when()
                 .post("/parking-lots/1/bookings");
