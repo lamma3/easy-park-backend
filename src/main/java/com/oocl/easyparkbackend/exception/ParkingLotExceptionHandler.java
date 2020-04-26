@@ -18,4 +18,9 @@ public class ParkingLotExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(BookingNotFoundException.class)
+    public ResponseEntity<ErrorMessage> handleBookingNotFound(BookingNotFoundException exception) {
+        ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
+        return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+    }
 }

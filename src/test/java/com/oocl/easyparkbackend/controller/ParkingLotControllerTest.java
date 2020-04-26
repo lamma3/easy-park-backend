@@ -1,8 +1,9 @@
 package com.oocl.easyparkbackend.controller;
 
+import com.oocl.easyparkbackend.model.Booking;
 import com.oocl.easyparkbackend.model.ParkingLot;
-import com.oocl.easyparkbackend.model.ParkingLotBooking;
 import com.oocl.easyparkbackend.model.Rating;
+import com.oocl.easyparkbackend.repository.BookingRepository;
 import com.oocl.easyparkbackend.repository.ParkingLotRepository;
 import com.oocl.easyparkbackend.repository.RatingRepository;
 import io.restassured.http.ContentType;
@@ -48,6 +49,9 @@ public class ParkingLotControllerTest {
     private ParkingLotRepository parkingLotRepository;
     @MockBean
     private RatingRepository ratingRepository;
+    @MockBean
+    private BookingRepository bookingRepository;
+
 
     List<ParkingLot> parkingLotList;
 
@@ -192,16 +196,43 @@ public class ParkingLotControllerTest {
     }
 
     @Test
-    public void should_return_booking_record_after_create_booking() throws Exception {
+    public void should_return_booking_record_after_creating_booking() throws Exception {
+        Booking updatedBooking = new Booking(1, "reserved", 1, null);
         Mockito.when(parkingLotRepository.findById(1))
                 .thenReturn(Optional.of(parkingLotList.get(0)));
+        Mockito.when(parkingLotRepository.save(Mockito.any()))
+                .thenReturn(updatedBooking);
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .when()
                 .post("/parking-lots/1/bookings");
 
-        ParkingLotBooking parkingLotBooking = response.getBody().as(ParkingLotBooking.class);
+        Booking booking = response.getBody().as(Booking.class);
         Assert.assertEquals(201, response.getStatusCode());
-        Assert.assertEquals(Integer.valueOf(1), parkingLotBooking.getParkingLotId());
-        Assert.assertEquals(Integer.valueOf(1), parkingLotBooking.getParkingLot().getId());
+        Assert.assertEquals(Integer.valueOf(1), booking.getParkingLotId());
+        Assert.assertEquals(Integer.valueOf(1), booking.getParkingLot().getId());
     }
+
+    @Test
+    public void should_return_updated_booking_record_after_updating_booking() throws Exception {
+        Booking RequestBody = new Booking();
+        Booking booking = new Booking(1, "reserved", 1, null);
+        Booking updatedBooking = new Booking(1, "completed", 1, null);
+        RequestBody.setStatus("completed");
+        Mockito.when(parkingLotRepository.findById(1))
+                .thenReturn(Optional.of(parkingLotList.get(0)));
+        Mockito.when(bookingRepository.findById(1))
+                .thenReturn(Optional.of(booking));
+        Mockito.when(parkingLotRepository.save(Mockito.any()))
+                .thenReturn(updatedBooking);
+        MockMvcResponse response = given().contentType(ContentType.JSON)
+                .body(RequestBody)
+                .when()
+                .patch("/parking-lots/1/bookings/1");
+
+        Booking updatedBookingRecord = response.getBody().as(Booking.class);
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertEquals("completed", updatedBookingRecord.getStatus());
+    }
+
+
 }

@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS PARKING_LOT_BOOKING;
-CREATE TABLE PARKING_LOT_BOOKING (
+DROP TABLE IF EXISTS BOOKING;
+CREATE TABLE BOOKING (
  id serial primary key,
  status varchar(20) not null,
  parking_lot_id int not null,
