@@ -29,13 +29,12 @@ public class RatingService {
         Rating savedRating = ratingRepository.save(newRating);
 
         List<Rating> ratings = ratingRepository.findAllByParkingLotId(parkingLotId);
-        ratings.add(newRating);
         double newAverageScore = calculateAverageScore(ratings);
 
         parkingLot.setRating(newAverageScore);
-        parkingLotRepository.save(parkingLot);
+        ParkingLot savedParkingLot = parkingLotRepository.save(parkingLot);
+        savedRating.setParkingLot(savedParkingLot);
 
-        savedRating.setParkingLot(parkingLot);
         return savedRating;
     }
 
