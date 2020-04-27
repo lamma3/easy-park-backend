@@ -38,6 +38,7 @@ public class ParkingLotController {
 
 
     @PostMapping("/{parkingLotId}/ratings")
+    @ResponseStatus(HttpStatus.CREATED)
     public Rating createRating(@PathVariable Integer parkingLotId, @RequestBody Rating rating) {
         return ratingService.createRating(parkingLotId, rating);
     }
