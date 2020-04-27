@@ -13,25 +13,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingService {
 
-    private static final int NO_AVAILABLE_POSITION = 0;
+    public static final int NO_AVAILABLE_POSITION = 0;
     @Autowired
     private ParkingLotRepository parkingLotRepository;
     @Autowired
     private BookingRepository bookingRepository;
 
     public Booking createBooking(Integer parkingLotId) {
-        ParkingLot existingParkingLot = parkingLotRepository.findById(parkingLotId).orElseThrow(ParkingLotNotFoundException::new);
+        ParkingLot targetedParkingLot = parkingLotRepository.findById(parkingLotId).orElseThrow(ParkingLotNotFoundException::new);
 
-        if (existingParkingLot.getAvailableCapacity().equals(NO_AVAILABLE_POSITION)) {
+        if (targetedParkingLot.getAvailableCapacity().equals(NO_AVAILABLE_POSITION)) {
             throw new ParkingLotIsFullException();
         }
 
-        existingParkingLot.setAvailableCapacity(existingParkingLot.getAvailableCapacity() - 1);
-        existingParkingLot.setReservedCapacity(existingParkingLot.getReservedCapacity() + 1);
-
-        ParkingLot targetedParkingLot = parkingLotRepository.save(existingParkingLot);
-
-        Booking booking = new Booking(null,"reserved",parkingLotId,null);
+        Booking booking = new Booking();
+        booking.setStatus("reserved");
+        booking.setParkingLotId(parkingLotId);
         Booking returnBookingRecord = bookingRepository.save(booking);
         returnBookingRecord.setParkingLot(targetedParkingLot);
         return returnBookingRecord;
@@ -45,15 +42,18 @@ public class BookingService {
             throw new BookingNotFoundException();
         }
 
-        if (booking.getStatus() != null && !targetedBooking.getStatus().equals(booking.getStatus())) {
+        if (booking.getStatus() != null) {
             targetedBooking.setStatus(booking.getStatus());
+        }
 
-            if (booking.getStatus().equals("completed")) {
-                originalParkingLot.setReservedCapacity(originalParkingLot.getReservedCapacity() - 1);
-                originalParkingLot.setAvailableCapacity(originalParkingLot.getAvailableCapacity() + 1);
+        if (booking.getParkingLotId() != null) {
+            ParkingLot targetedParkingLot = parkingLotRepository.findById(booking.getParkingLotId()).orElseThrow(ParkingLotNotFoundException::new);
+
+            if (targetedParkingLot.getAvailableCapacity().equals(NO_AVAILABLE_POSITION)) {
+                throw new ParkingLotIsFullException();
             }
-            ParkingLot updatedParkingLot = parkingLotRepository.save(originalParkingLot);
-            targetedBooking.setParkingLot(updatedParkingLot);
+            targetedBooking.setParkingLotId(booking.getParkingLotId());
+            targetedBooking.setParkingLot(targetedParkingLot);
         }
         return bookingRepository.save(targetedBooking);
     }
