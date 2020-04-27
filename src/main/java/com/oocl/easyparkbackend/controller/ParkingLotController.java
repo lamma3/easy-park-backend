@@ -55,5 +55,10 @@ public class ParkingLotController {
         return bookingService.updateBooking(parkingLotId,bookingId, booking);
     }
 
+    @GetMapping("/bookings/{bookingId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Booking getBookingById(@PathVariable Integer bookingId) {
+        return bookingService.getBookingById(bookingId);
+    }
 
 }

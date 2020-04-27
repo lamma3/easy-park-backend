@@ -89,4 +89,9 @@ public class BookingService {
         }
         return bookingRepository.save(targetedBooking);
     }
+
+    public Booking getBookingById(Integer bookingId) {
+        return bookingRepository.findById(bookingId).orElseThrow(BookingNotFoundException::new);
+    }
+
 }
