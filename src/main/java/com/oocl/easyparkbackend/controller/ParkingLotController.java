@@ -1,7 +1,7 @@
 package com.oocl.easyparkbackend.controller;
 
 import com.oocl.easyparkbackend.model.ParkingLot;
-import com.oocl.easyparkbackend.model.Booking;
+import com.oocl.easyparkbackend.model.ParkingLotBooking;
 import com.oocl.easyparkbackend.model.Rating;
 import com.oocl.easyparkbackend.service.BookingService;
 import com.oocl.easyparkbackend.service.ParkingLotService;
@@ -44,12 +44,12 @@ public class ParkingLotController {
 
     @PostMapping("/{parkingLotId}/bookings")
     @ResponseStatus(HttpStatus.CREATED)
-    public Booking createBooking(@PathVariable Integer parkingLotId) {
+    public ParkingLotBooking createBooking(@PathVariable Integer parkingLotId) {
         return bookingService.createBooking(parkingLotId);
     }
 
     @PatchMapping("/{parkingLotId}/bookings/{bookingId}")
-    public Booking updateBooking(@PathVariable Integer parkingLotId, @PathVariable Integer bookingId, @RequestBody Booking booking) {
-        return bookingService.updateBooking(parkingLotId,bookingId, booking);
+    public ParkingLotBooking updateBooking(@PathVariable Integer parkingLotId, @PathVariable Integer bookingId, @RequestBody ParkingLotBooking parkingLotBooking) {
+        return bookingService.updateBooking(parkingLotId,bookingId, parkingLotBooking);
     }
 }
