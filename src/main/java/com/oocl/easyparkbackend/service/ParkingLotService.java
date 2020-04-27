@@ -26,7 +26,8 @@ public class ParkingLotService {
         distanceCalculator = new DistanceCalculator();
     }
 
-    public List<ParkingLot> findAll(Double priceFrom, Double priceTo, Double maxDistance, String ratingOrder,Double deviceLatitude, Double deviceLongitude) {
+    public List<ParkingLot> findAll(Double priceFrom, Double priceTo, Double maxDistance, String ratingOrder,
+                                    Boolean needCharge, Double deviceLatitude, Double deviceLongitude) {
         List<ParkingLot> parkingLotList = repository.findAll();
 
         Stream<ParkingLot> parkingLotStream = parkingLotList.stream();
@@ -40,6 +41,10 @@ public class ParkingLotService {
 
         if(maxDistance != null){
             parkingLotStream = parkingLotStream.filter(parkingLot -> maxDistance >= distanceCalculator.distance(deviceLatitude,deviceLongitude,parkingLot.getLatitude(),parkingLot.getLongitude()));
+        }
+
+        if(Boolean.TRUE.equals(needCharge)){
+            parkingLotStream = parkingLotStream.filter(parkingLot -> parkingLot.getAvailableChargeCapacity() > 0);
         }
 
         List<ParkingLot> resultList = parkingLotStream.collect(Collectors.toList());

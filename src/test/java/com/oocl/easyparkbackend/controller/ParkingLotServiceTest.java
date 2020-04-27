@@ -47,7 +47,7 @@ public class ParkingLotServiceTest {
 
         parkingLotService = new ParkingLotService(parkingLotRepository);
         parkingLotList = new ArrayList<>();
-        parkingLotList.add(new ParkingLot(1,"A","AddressA",111.111111,111.111111,56.5,100.0,10,10,0,0,0,0,0,0,1.0));
+        parkingLotList.add(new ParkingLot(1,"A","AddressA",111.111111,111.111111,56.5,100.0,10,10,0,0,10,10,0,0,1.0));
         parkingLotList.add(new ParkingLot(2,"B","AddressB",222.222222,222.222222,60.5,200.0,10,10,0,0,0,0,0,0,2.0));
         parkingLotList.add(new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,3.0));
 
@@ -63,7 +63,7 @@ public class ParkingLotServiceTest {
         resultList.add(parkingLotList.get(0));
         doReturn(resultList).when(parkingLotRepository).findAll();
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(priceFrom, null, null, null,null,null);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(priceFrom, null, null, null,null,null, null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 
 
@@ -78,11 +78,22 @@ public class ParkingLotServiceTest {
         resultList.add(parkingLotList.get(0));
         doReturn(resultList).when(parkingLotRepository).findAll();
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(priceTo, null, null, null,null,null);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(priceTo, null, null, null,null,null, null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 
     }
 
+    @Test
+    public void should_find_result_if_parkinglot_available_charge_capacity_is_10_and_need_charge_is_true() throws Exception {
+        
+        List<ParkingLot> resultList = new ArrayList<>();
+        resultList.add(parkingLotList.get(0));
+        doReturn(resultList).when(parkingLotRepository).findAll();
+
+        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, null,true,null, null);
+        Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
+
+    }
 
     @Test
     public void should_sorting_if_ratingOrder_is_asc() throws Exception {
@@ -90,7 +101,7 @@ public class ParkingLotServiceTest {
         List<ParkingLot> resultList = parkingLotList;
         doReturn(resultList).when(parkingLotRepository).findAll();
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, ASC_ORDER,null,null);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, ASC_ORDER,null,null, null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 
     }
@@ -100,7 +111,7 @@ public class ParkingLotServiceTest {
 
         List<ParkingLot> resultList = parkingLotList;
         doReturn(resultList).when(parkingLotRepository).findAll();
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, DESC_ORDER,null,null);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, DESC_ORDER,null,null, null);
         resultList.sort(Comparator.comparingDouble(ParkingLot::getRating).reversed());
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 
