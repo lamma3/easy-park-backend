@@ -63,7 +63,7 @@ public class ParkingLotServiceTest {
         resultList.add(parkingLotList.get(0));
         doReturn(resultList).when(parkingLotRepository).findAll();
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(priceFrom, null, null, null);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(priceFrom, null, null, null,null,null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 
 
@@ -78,7 +78,7 @@ public class ParkingLotServiceTest {
         resultList.add(parkingLotList.get(0));
         doReturn(resultList).when(parkingLotRepository).findAll();
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(priceTo, null, null, null);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(priceTo, null, null, null,null,null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 
     }
@@ -90,7 +90,7 @@ public class ParkingLotServiceTest {
         List<ParkingLot> resultList = parkingLotList;
         doReturn(resultList).when(parkingLotRepository).findAll();
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, ASC_ORDER);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, ASC_ORDER,null,null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 
     }
@@ -100,7 +100,7 @@ public class ParkingLotServiceTest {
 
         List<ParkingLot> resultList = parkingLotList;
         doReturn(resultList).when(parkingLotRepository).findAll();
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, DESC_ORDER);
+        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, DESC_ORDER,null,null);
         resultList.sort(Comparator.comparingDouble(ParkingLot::getRating).reversed());
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
 

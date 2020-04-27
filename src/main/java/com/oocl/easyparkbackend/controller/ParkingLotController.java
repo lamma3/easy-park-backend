@@ -28,7 +28,7 @@ public class ParkingLotController {
                                            @RequestParam(required = false) Double priceTo,
                                            @RequestParam(required = false) Double distance,
                                            @RequestParam(required = false) String ratingOrder) {
-        return service.findAll(priceFrom, priceTo, distance, ratingOrder);
+        return service.findAll(priceFrom, priceTo, distance, ratingOrder,22.425931,114.212276);
     }
 
     @GetMapping("/{parkingLotId}")

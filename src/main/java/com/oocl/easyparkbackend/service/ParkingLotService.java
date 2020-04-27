@@ -1,5 +1,6 @@
 package com.oocl.easyparkbackend.service;
 
+import com.oocl.easyparkbackend.model.DistanceCalculator;
 import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,16 @@ import java.util.stream.Stream;
 public class ParkingLotService {
 
     private static String ASC_ORDER = "asc";
-
+    private DistanceCalculator distanceCalculator;
     @Autowired
     private ParkingLotRepository repository;
 
     public ParkingLotService(ParkingLotRepository repository) {
         this.repository = repository;
+        distanceCalculator = new DistanceCalculator();
     }
 
-    public List<ParkingLot> findAll(Double priceFrom, Double priceTo, Double maxDistance, String ratingOrder) {
+    public List<ParkingLot> findAll(Double priceFrom, Double priceTo, Double maxDistance, String ratingOrder,Double deviceLatitude, Double deviceLongitude) {
         List<ParkingLot> parkingLotList = repository.findAll();
 
         Stream<ParkingLot> parkingLotStream = parkingLotList.stream();
@@ -37,7 +39,7 @@ public class ParkingLotService {
         }
 
         if(maxDistance != null){
-            parkingLotStream = parkingLotStream.filter(parkingLot -> maxDistance >= parkingLot.getDistance());
+            parkingLotStream = parkingLotStream.filter(parkingLot -> maxDistance >= distanceCalculator.distance(deviceLatitude,deviceLongitude,parkingLot.getLatitude(),parkingLot.getLongitude()));
         }
 
         List<ParkingLot> resultList = parkingLotStream.collect(Collectors.toList());
