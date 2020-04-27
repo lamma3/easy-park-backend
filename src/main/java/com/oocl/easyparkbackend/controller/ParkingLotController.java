@@ -1,7 +1,7 @@
 package com.oocl.easyparkbackend.controller;
 
-import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.model.Booking;
+import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.model.Rating;
 import com.oocl.easyparkbackend.service.BookingService;
 import com.oocl.easyparkbackend.service.ParkingLotService;
@@ -29,7 +29,7 @@ public class ParkingLotController {
                                            @RequestParam(required = false) Double distance,
                                            @RequestParam(required = false) Boolean needCharge,
                                            @RequestParam(required = false) String ratingOrder) {
-        return service.findAll(priceFrom, priceTo, distance, ratingOrder, needCharge,22.425931,114.212276);
+        return service.findAll(priceFrom, priceTo, distance, ratingOrder, needCharge, 22.425931, 114.212276);
     }
 
     @GetMapping("/{parkingLotId}")
@@ -47,12 +47,12 @@ public class ParkingLotController {
     @PostMapping("/{parkingLotId}/bookings")
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@PathVariable Integer parkingLotId, @RequestBody Booking booking) {
-        return bookingService.createBooking(parkingLotId,booking);
+        return bookingService.createBooking(parkingLotId, booking);
     }
 
     @PatchMapping("/{parkingLotId}/bookings/{bookingId}")
     public Booking updateBooking(@PathVariable Integer parkingLotId, @PathVariable Integer bookingId, @RequestBody Booking booking) {
-        return bookingService.updateBooking(parkingLotId,bookingId, booking);
+        return bookingService.updateBooking(parkingLotId, bookingId, booking);
     }
 
     @GetMapping("/bookings/{bookingId}")
@@ -60,5 +60,5 @@ public class ParkingLotController {
     public Booking getBookingById(@PathVariable Integer bookingId) {
         return bookingService.getBookingById(bookingId);
     }
-
 }
+
