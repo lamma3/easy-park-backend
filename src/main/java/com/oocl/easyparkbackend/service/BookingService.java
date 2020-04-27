@@ -60,10 +60,13 @@ public class BookingService {
         }
 
         if (requestedBooking.getIsElectricCar()) {
+            if (targetedParkingLot.getAvailableChargeCapacity().equals(NO_AVAILABLE_POSITION)) {
+                throw new ParkingLotIsFullException();
+            }
             isElectricCar = true;
         }
 
-        bookingParkingLotPosition(targetedParkingLot,isElectricCar);
+        bookingParkingLotPosition(targetedParkingLot, isElectricCar);
 
         Booking booking = new Booking(null, new Date(), "RESERVED", isElectricCar, parkingLotId, null);
         Booking returnBookingRecord = bookingRepository.save(booking);
@@ -84,7 +87,7 @@ public class BookingService {
             Status originalStatus = Status.valueOf(targetedBooking.getStatus());
             if (status == Status.COMPLETE && originalStatus == Status.RESERVED) {
                 targetedBooking.setStatus(booking.getStatus());
-                releaseParkingLotPosition(originalParkingLot,targetedBooking.getIsElectricCar());
+                releaseParkingLotPosition(originalParkingLot, targetedBooking.getIsElectricCar());
             }
         }
         return bookingRepository.save(targetedBooking);
@@ -93,5 +96,4 @@ public class BookingService {
     public Booking getBookingById(Integer bookingId) {
         return bookingRepository.findById(bookingId).orElseThrow(BookingNotFoundException::new);
     }
-
 }
