@@ -1,5 +1,6 @@
 package com.oocl.easyparkbackend.controller;
 
+import com.oocl.easyparkbackend.model.Booking;
 import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.model.Rating;
 import com.oocl.easyparkbackend.repository.BookingRepository;
