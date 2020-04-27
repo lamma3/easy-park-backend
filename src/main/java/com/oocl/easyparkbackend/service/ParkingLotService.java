@@ -2,7 +2,6 @@ package com.oocl.easyparkbackend.service;
 
 import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.repository.ParkingLotRepository;
-import com.oocl.easyparkbackend.repository.ParkingLotRepositoryCustomImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +19,10 @@ public class ParkingLotService {
 
     @Autowired
     private ParkingLotRepository repository;
+
+    public ParkingLotService(ParkingLotRepository repository) {
+        this.repository = repository;
+    }
 
     public List<ParkingLot> findAll(Double priceFrom, Double priceTo, Double maxDistance, String ratingOrder) {
         List<ParkingLot> parkingLotList = repository.findAll();
