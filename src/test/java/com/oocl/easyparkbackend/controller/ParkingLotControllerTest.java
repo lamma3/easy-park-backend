@@ -1,6 +1,5 @@
 package com.oocl.easyparkbackend.controller;
 
-import com.oocl.easyparkbackend.model.Booking;
 import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.model.Rating;
 import com.oocl.easyparkbackend.repository.BookingRepository;
@@ -141,6 +140,7 @@ public class ParkingLotControllerTest {
                 .post("/parking-lots/3/ratings")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"score\": 4}"))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.score", is(4.0)))
                 .andExpect(jsonPath("$.parkingLotId", is(3)))
@@ -160,6 +160,7 @@ public class ParkingLotControllerTest {
                 .post("/parking-lots/3/ratings")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"score\": 4}"))
+                .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", is("Parking lot not found.")));
     }
 
@@ -187,6 +188,7 @@ public class ParkingLotControllerTest {
                 .post("/parking-lots/3/ratings")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"score\": 4}"))
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is(2)))
                 .andExpect(jsonPath("$.score", is(4.0)))
                 .andExpect(jsonPath("$.parkingLotId", is(3)))
