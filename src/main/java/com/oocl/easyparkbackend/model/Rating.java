@@ -17,7 +17,7 @@ public class Rating {
     private Double score;
     private Integer parkingLotId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "parkingLotId", updatable = false, insertable = false)
     private ParkingLot parkingLot;
 }
