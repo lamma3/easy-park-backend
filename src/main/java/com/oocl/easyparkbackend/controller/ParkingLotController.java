@@ -45,12 +45,14 @@ public class ParkingLotController {
 
     @PostMapping("/{parkingLotId}/bookings")
     @ResponseStatus(HttpStatus.CREATED)
-    public Booking createBooking(@PathVariable Integer parkingLotId) {
-        return bookingService.createBooking(parkingLotId);
+    public Booking createBooking(@PathVariable Integer parkingLotId, @RequestBody Booking booking) {
+        return bookingService.createBooking(parkingLotId,booking);
     }
 
     @PatchMapping("/{parkingLotId}/bookings/{bookingId}")
     public Booking updateBooking(@PathVariable Integer parkingLotId, @PathVariable Integer bookingId, @RequestBody Booking booking) {
         return bookingService.updateBooking(parkingLotId,bookingId, booking);
     }
+
+
 }

@@ -10,6 +10,8 @@ import com.oocl.easyparkbackend.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class BookingService {
 
@@ -27,28 +29,43 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-    private void bookingParkingLotPosition(ParkingLot targetedParkingLot) {
-        targetedParkingLot.setAvailableCapacity(targetedParkingLot.getAvailableCapacity() + DECREMENT);
-        targetedParkingLot.setReservedCapacity(targetedParkingLot.getReservedCapacity() + INCREMENT);
+    private void bookingParkingLotPosition(ParkingLot targetedParkingLot, boolean isElectricCar) {
+        if (isElectricCar) {
+            targetedParkingLot.setAvailableChargeCapacity(targetedParkingLot.getAvailableChargeCapacity() + DECREMENT);
+            targetedParkingLot.setReservedChargeCapacity(targetedParkingLot.getReservedChargeCapacity() + INCREMENT);
+        } else {
+            targetedParkingLot.setAvailableCapacity(targetedParkingLot.getAvailableCapacity() + DECREMENT);
+            targetedParkingLot.setReservedCapacity(targetedParkingLot.getReservedCapacity() + INCREMENT);
+        }
         parkingLotRepository.save(targetedParkingLot);
     }
 
-    private void releaseParkingLotPosition(ParkingLot originalParkingLot) {
-        originalParkingLot.setAvailableCapacity(originalParkingLot.getAvailableCapacity() + INCREMENT);
-        originalParkingLot.setReservedCapacity(originalParkingLot.getReservedCapacity() + DECREMENT);
+    private void releaseParkingLotPosition(ParkingLot originalParkingLot, boolean isElectricCar) {
+        if (isElectricCar) {
+            originalParkingLot.setAvailableChargeCapacity(originalParkingLot.getAvailableChargeCapacity() + INCREMENT);
+            originalParkingLot.setReservedChargeCapacity(originalParkingLot.getReservedChargeCapacity() + DECREMENT);
+        } else {
+            originalParkingLot.setAvailableCapacity(originalParkingLot.getAvailableCapacity() + INCREMENT);
+            originalParkingLot.setReservedCapacity(originalParkingLot.getReservedCapacity() + DECREMENT);
+        }
         parkingLotRepository.save(originalParkingLot);
     }
 
-    public Booking createBooking(Integer parkingLotId) {
+    public Booking createBooking(Integer parkingLotId, Booking requestedBooking) {
         ParkingLot targetedParkingLot = parkingLotRepository.findById(parkingLotId).orElseThrow(ParkingLotNotFoundException::new);
+        boolean isElectricCar = false;
 
         if (targetedParkingLot.getAvailableCapacity().equals(NO_AVAILABLE_POSITION)) {
             throw new ParkingLotIsFullException();
         }
 
-        bookingParkingLotPosition(targetedParkingLot);
+        if (requestedBooking.getIsElectricCar()) {
+            isElectricCar = true;
+        }
 
-        Booking booking = new Booking(null, "RESERVED", parkingLotId, null);
+        bookingParkingLotPosition(targetedParkingLot,isElectricCar);
+
+        Booking booking = new Booking(null, new Date(), "RESERVED", isElectricCar, parkingLotId, null);
         Booking returnBookingRecord = bookingRepository.save(booking);
         returnBookingRecord.setParkingLot(targetedParkingLot);
         return returnBookingRecord;
@@ -67,7 +84,7 @@ public class BookingService {
             Status originalStatus = Status.valueOf(targetedBooking.getStatus());
             if (status == Status.COMPLETE && originalStatus == Status.RESERVED) {
                 targetedBooking.setStatus(booking.getStatus());
-                releaseParkingLotPosition(originalParkingLot);
+                releaseParkingLotPosition(originalParkingLot,targetedBooking.getIsElectricCar());
             }
         }
         return bookingRepository.save(targetedBooking);

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +15,10 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date utilTimestamp;
     private String status;
+    private Boolean isElectricCar;
     private Integer parkingLotId;
 
     @OneToOne
