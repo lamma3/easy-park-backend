@@ -1,6 +1,7 @@
 package com.oocl.easyparkbackend.controller;
 
 import com.oocl.easyparkbackend.model.ParkingLot;
+import com.oocl.easyparkbackend.repository.ParkingLotRepositoryCustomImpl;
 import com.oocl.easyparkbackend.service.ParkingLotService;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.TypeRef;
@@ -38,23 +39,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ParkingLotServiceTest {
+public class ParkingLotRepositoryCustomImplTest {
 
-    @Autowired
-    private MockMvc mvc;
     @Autowired
     private ParkingLotController parkingLotController;
-    private ParkingLotService parkingLotService;
+    private ParkingLotRepositoryCustomImpl parkingLotRepositoryCustomImpl;
 
     private List<ParkingLot> parkingLotList;
-    private ParkingLot parkingLot;
 
-    private Root<ParkingLot> parkingLotRoot;
+    private Root parkingLotRoot;
     private Predicate predicate;
     private CriteriaBuilder criteriaBuilder;
-    private CriteriaQuery<ParkingLot> query;
+    private CriteriaQuery query;
     private EntityManager entityManager;
-    TypedQuery<ParkingLot> typedQuery;
+    private TypedQuery typedQuery;
 
     private static String HOUR_RATE = "hourRate";
     private static String DISTANCE = "distance";
@@ -73,14 +71,12 @@ public class ParkingLotServiceTest {
         query = Mockito.mock(CriteriaQuery.class);
         entityManager = Mockito.mock(EntityManager.class);
         typedQuery = Mockito.mock(TypedQuery.class);
-        parkingLotService = new ParkingLotService(entityManager);
+        parkingLotRepositoryCustomImpl = new ParkingLotRepositoryCustomImpl(entityManager);
 
         parkingLotList = new ArrayList<>();
         parkingLotList.add(new ParkingLot(1,"A","AddressA",111.111111,111.111111,56.5,100.0,10,10,0,0,0,0,0,0,1.0));
         parkingLotList.add(new ParkingLot(2,"B","AddressB",222.222222,222.222222,60.5,200.0,10,10,0,0,0,0,0,0,2.0));
         parkingLotList.add(new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,3.0));
-
-        parkingLot = parkingLotList.get(0);
 
     }
 
@@ -104,7 +100,7 @@ public class ParkingLotServiceTest {
         Mockito.when(entityManager.createQuery(query))
                 .thenReturn(typedQuery);
         Mockito.when(typedQuery.getResultList()).thenReturn(resultList);
-        List<ParkingLot> parkingLots = parkingLotService.findAll(priceFrom, null, null, null);
+        List<ParkingLot> parkingLots = parkingLotRepositoryCustomImpl.findAllParkingLotsByFilterCondition(priceFrom, null, null, null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
         verify(criteriaBuilder, times(1)).ge(parkingLotRoot.get(HOUR_RATE), priceFrom);
 
@@ -129,7 +125,7 @@ public class ParkingLotServiceTest {
         Mockito.when(entityManager.createQuery(query))
                 .thenReturn(typedQuery);
         Mockito.when(typedQuery.getResultList()).thenReturn(resultList);
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, priceTo, null, null);
+        List<ParkingLot> parkingLots = parkingLotRepositoryCustomImpl.findAllParkingLotsByFilterCondition(null, priceTo, null, null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
         verify(criteriaBuilder, times(1)).le(parkingLotRoot.get(HOUR_RATE), priceTo);
 
@@ -154,7 +150,7 @@ public class ParkingLotServiceTest {
         Mockito.when(entityManager.createQuery(query))
                 .thenReturn(typedQuery);
         Mockito.when(typedQuery.getResultList()).thenReturn(resultList);
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, distance, null);
+        List<ParkingLot> parkingLots = parkingLotRepositoryCustomImpl.findAllParkingLotsByFilterCondition(null, null, distance, null);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
         verify(criteriaBuilder, times(1)).le(parkingLotRoot.get(DISTANCE), distance);
 
@@ -176,7 +172,7 @@ public class ParkingLotServiceTest {
                 .thenReturn(typedQuery);
         Mockito.when(typedQuery.getResultList()).thenReturn(resultList);
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, ASC_ORDER);
+        List<ParkingLot> parkingLots = parkingLotRepositoryCustomImpl.findAllParkingLotsByFilterCondition(null, null, null, ASC_ORDER);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
         verify(query, times(1)).orderBy(criteriaBuilder.asc(parkingLotRoot.get(RATING)));
 
@@ -198,7 +194,7 @@ public class ParkingLotServiceTest {
                 .thenReturn(typedQuery);
         Mockito.when(typedQuery.getResultList()).thenReturn(resultList);
 
-        List<ParkingLot> parkingLots = parkingLotService.findAll(null, null, null, DESC_ORDER);
+        List<ParkingLot> parkingLots = parkingLotRepositoryCustomImpl.findAllParkingLotsByFilterCondition(null, null, null, DESC_ORDER);
         Assert.assertThat(resultList, CoreMatchers.is(parkingLots));
         verify(query, times(1)).orderBy(criteriaBuilder.desc(parkingLotRoot.get(RATING)));
 
