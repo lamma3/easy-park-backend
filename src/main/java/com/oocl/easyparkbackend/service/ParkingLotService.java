@@ -1,5 +1,6 @@
 package com.oocl.easyparkbackend.service;
 
+import com.oocl.easyparkbackend.exception.ParkingLotIsDataErrorException;
 import com.oocl.easyparkbackend.exception.ParkingLotNotFoundException;
 import com.oocl.easyparkbackend.model.DistanceCalculator;
 import com.oocl.easyparkbackend.model.ParkingLot;
@@ -67,6 +68,25 @@ public class ParkingLotService {
         ParkingLot parkingLotToBeUpdated = repository.findById(parkingLotId).orElse(null);
         if(parkingLotToBeUpdated == null){
             throw new ParkingLotNotFoundException();
+        }
+
+        boolean isValidData = true;
+
+        int totalQty = parkingLot.getAvailableCapacity()
+                +parkingLot.getOccupiedCapacity()
+                +parkingLot.getReservedCapacity();
+
+        int totalChargeQty = parkingLot.getAvailableChargeCapacity()
+                +parkingLot.getOccupiedChargeCapacity()
+                +parkingLot.getReservedChargeCapacity();
+
+        if(totalQty > parkingLot.getTotalChargeCapacity()
+                || totalChargeQty > parkingLot.getTotalCapacity()){
+            isValidData = false;
+        }
+
+        if(!isValidData){
+            throw new ParkingLotIsDataErrorException();
         }
 
         parkingLotToBeUpdated.update(parkingLot);
