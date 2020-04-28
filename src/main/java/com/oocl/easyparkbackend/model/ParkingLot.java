@@ -1,5 +1,6 @@
 package com.oocl.easyparkbackend.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -14,21 +15,37 @@ import javax.persistence.Id;
 public class ParkingLot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(example = "4")
     private Integer id;
+    @ApiModelProperty(example = "Fortune City One Car Park")
     private String name;
+    @ApiModelProperty(example = "1 Ngan Shing St, Sha Tin")
     private String address;
+    @ApiModelProperty(example = "22.386228")
     private Double latitude;
+    @ApiModelProperty(example = "114.203594")
     private Double longitude;
+    @ApiModelProperty(example = "24.0")
     private Double hourRate;
+    @ApiModelProperty(example = "120.0")
     private Double distance;
+    @ApiModelProperty(example = "10")
     private Integer totalCapacity;
+    @ApiModelProperty(example = "10")
     private Integer availableCapacity;
+    @ApiModelProperty(example = "0")
     private Integer occupiedCapacity;
+    @ApiModelProperty(example = "0")
     private Integer reservedCapacity;
+    @ApiModelProperty(example = "40")
     private Integer totalChargeCapacity;
+    @ApiModelProperty(example = "40")
     private Integer availableChargeCapacity;
+    @ApiModelProperty(example = "0")
     private Integer occupiedChargeCapacity;
+    @ApiModelProperty(example = "0")
     private Integer reservedChargeCapacity;
+    @ApiModelProperty(example = "4.0")
     private Double rating;
 
     public void update(ParkingLot parkingLot) {

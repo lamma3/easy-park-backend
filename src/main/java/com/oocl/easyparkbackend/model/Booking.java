@@ -1,5 +1,6 @@
 package com.oocl.easyparkbackend.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,15 @@ import java.util.Date;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(example = "1")
     private Integer id;
     @Temporal(TemporalType.TIMESTAMP)
     private Date utilTimestamp;
+    @ApiModelProperty(example = "reserved")
     private String status;
+    @ApiModelProperty(example = "true")
     private Boolean isElectricCar;
+    @ApiModelProperty(example = "4")
     private Integer parkingLotId;
 
     @OneToOne
