@@ -86,8 +86,8 @@ public class ParkingLotControllerTest {
 
     @Test
     public void should_return_all_parking_lots() {
-        Mockito.when(parkingLotRepository.findById(1))
-                .thenReturn(Optional.of(parkingLotList.get(0)));
+        Mockito.when(parkingLotRepository.findAll())
+                .thenReturn(parkingLotList);
 
         MockMvcResponse response = given().contentType(ContentType.JSON)
                 .when()
