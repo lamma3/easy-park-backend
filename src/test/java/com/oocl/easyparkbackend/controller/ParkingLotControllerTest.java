@@ -59,9 +59,9 @@ public class ParkingLotControllerTest {
         RestAssuredMockMvc.standaloneSetup(parkingLotController);
 
         parkingLotList = new ArrayList<>();
-        parkingLotList.add(new ParkingLot(1,"A","AddressA",111.111111,111.111111,56.5,100.0,10,10,0,0,0,0,0,0,1.0));
-        parkingLotList.add(new ParkingLot(2,"B","AddressB",222.222222,222.222222,60.5,200.0,10,10,0,0,0,0,0,0,2.0));
-        parkingLotList.add(new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,3.0));
+        parkingLotList.add(new ParkingLot(1, "A", "AddressA", 111.111111, 111.111111, 56.5, 100.0, 10, 10, 0, 0, 0, 0, 0, 0, 1.0));
+        parkingLotList.add(new ParkingLot(2, "B", "AddressB", 222.222222, 222.222222, 60.5, 200.0, 10, 10, 0, 0, 0, 0, 0, 0, 2.0));
+        parkingLotList.add(new ParkingLot(3, "C", "AddressC", 333.333333, 333.333333, 75.5, 300.0, 10, 10, 0, 0, 0, 0, 0, 0, 3.0));
 
     }
 
@@ -119,8 +119,8 @@ public class ParkingLotControllerTest {
 
     @Test
     public void should_return_new_score_after_adding_new_rating() throws Exception {
-        ParkingLot originalParkingLot = new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,0.0);
-        ParkingLot updatedParkingLot = new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,4.0);
+        ParkingLot originalParkingLot = new ParkingLot(3, "C", "AddressC", 333.333333, 333.333333, 75.5, 300.0, 10, 10, 0, 0, 0, 0, 0, 0, 0.0);
+        ParkingLot updatedParkingLot = new ParkingLot(3, "C", "AddressC", 333.333333, 333.333333, 75.5, 300.0, 10, 10, 0, 0, 0, 0, 0, 0, 4.0);
         Mockito.when(parkingLotRepository.findById(3))
                 .thenReturn(Optional.of(originalParkingLot));
         Mockito.when(parkingLotRepository.save(Mockito.any()))
@@ -166,8 +166,8 @@ public class ParkingLotControllerTest {
 
     @Test
     public void should_return_correct_average_score_after_adding_new_rating() throws Exception {
-        ParkingLot originalParkingLot = new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,0.0);
-        ParkingLot updatedParkingLot = new ParkingLot(3,"C","AddressC",333.333333,333.333333,75.5,300.0,10,10,0,0,0,0,0,0,3.5);
+        ParkingLot originalParkingLot = new ParkingLot(3, "C", "AddressC", 333.333333, 333.333333, 75.5, 300.0, 10, 10, 0, 0, 0, 0, 0, 0, 0.0);
+        ParkingLot updatedParkingLot = new ParkingLot(3, "C", "AddressC", 333.333333, 333.333333, 75.5, 300.0, 10, 10, 0, 0, 0, 0, 0, 0, 3.5);
         Mockito.when(parkingLotRepository.findById(3))
                 .thenReturn(Optional.of(originalParkingLot));
         Mockito.when(parkingLotRepository.save(Mockito.any()))

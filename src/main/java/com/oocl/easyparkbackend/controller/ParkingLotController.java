@@ -33,7 +33,7 @@ public class ParkingLotController {
                                            @RequestParam(required = false) String ratingOrder,
                                            @RequestParam(required = false) Double deviceLatitude,
                                            @RequestParam(required = false) Double deviceLongitude) {
-        return service.findAll(priceFrom, priceTo, distance, ratingOrder, needCharge,deviceLatitude,deviceLongitude);
+        return service.findAll(priceFrom, priceTo, distance, ratingOrder, needCharge, deviceLatitude, deviceLongitude);
     }
 
     @GetMapping("/{parkingLotId}")
@@ -65,7 +65,7 @@ public class ParkingLotController {
     @PostMapping("/{parkingLotId}/bookings")
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@PathVariable Integer parkingLotId, @RequestBody Booking booking) {
-        return bookingService.createBooking(parkingLotId,booking);
+        return bookingService.createBooking(parkingLotId, booking);
     }
 
     @ApiResponses(value = {
@@ -74,7 +74,7 @@ public class ParkingLotController {
     })
     @PatchMapping("/{parkingLotId}/bookings/{bookingId}")
     public Booking updateBooking(@PathVariable Integer parkingLotId, @PathVariable Integer bookingId, @RequestBody Booking booking) {
-        return bookingService.updateBooking(parkingLotId,bookingId, booking);
+        return bookingService.updateBooking(parkingLotId, bookingId, booking);
     }
 
     @GetMapping("/bookings/{bookingId}")

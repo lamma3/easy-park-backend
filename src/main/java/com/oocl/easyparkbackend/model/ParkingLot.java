@@ -1,7 +1,9 @@
 package com.oocl.easyparkbackend.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,43 +51,43 @@ public class ParkingLot {
     private Double rating;
 
     public void update(ParkingLot parkingLot) {
-        if(parkingLot.getName() != null){
+        if (parkingLot.getName() != null) {
             this.setName(parkingLot.getName());
         }
-        if(parkingLot.getAddress() != null){
+        if (parkingLot.getAddress() != null) {
             this.setAddress(parkingLot.getAddress());
         }
-        if(parkingLot.getLatitude() != null){
+        if (parkingLot.getLatitude() != null) {
             this.setLatitude(parkingLot.getLatitude());
         }
-        if(parkingLot.getLongitude() != null){
+        if (parkingLot.getLongitude() != null) {
             this.setLongitude(parkingLot.getLongitude());
         }
-        if(parkingLot.getHourRate() != null){
+        if (parkingLot.getHourRate() != null) {
             this.setHourRate(parkingLot.getHourRate());
         }
-        if(parkingLot.getTotalCapacity() != null){
+        if (parkingLot.getTotalCapacity() != null) {
             this.setTotalCapacity(parkingLot.getTotalCapacity());
         }
-        if(parkingLot.getAvailableCapacity() != null){
+        if (parkingLot.getAvailableCapacity() != null) {
             this.setAvailableCapacity(parkingLot.getAvailableCapacity());
         }
-        if(parkingLot.getOccupiedCapacity() != null){
+        if (parkingLot.getOccupiedCapacity() != null) {
             this.setOccupiedCapacity(parkingLot.getOccupiedCapacity());
         }
-        if(parkingLot.getReservedCapacity() != null){
+        if (parkingLot.getReservedCapacity() != null) {
             this.setReservedCapacity(parkingLot.getReservedCapacity());
         }
-        if(parkingLot.getTotalChargeCapacity() != null){
+        if (parkingLot.getTotalChargeCapacity() != null) {
             this.setTotalChargeCapacity(parkingLot.getTotalChargeCapacity());
         }
-        if(parkingLot.getOccupiedChargeCapacity() != null){
+        if (parkingLot.getOccupiedChargeCapacity() != null) {
             this.setOccupiedChargeCapacity(parkingLot.getOccupiedChargeCapacity());
         }
-        if(parkingLot.getAvailableChargeCapacity() != null){
+        if (parkingLot.getAvailableChargeCapacity() != null) {
             this.setAvailableChargeCapacity(parkingLot.getAvailableChargeCapacity());
         }
-        if(parkingLot.getReservedChargeCapacity() != null){
+        if (parkingLot.getReservedChargeCapacity() != null) {
             this.setReservedChargeCapacity(parkingLot.getReservedChargeCapacity());
         }
 

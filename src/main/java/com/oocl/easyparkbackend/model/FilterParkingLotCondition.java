@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class FilterParkingLotCondition
-{
+public class FilterParkingLotCondition {
     Integer minPrice;
     Integer maxPrice;
 
