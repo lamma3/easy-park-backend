@@ -80,8 +80,8 @@ public class ParkingLotService {
                 +parkingLot.getOccupiedChargeCapacity()
                 +parkingLot.getReservedChargeCapacity();
 
-        if(totalQty > parkingLot.getTotalChargeCapacity()
-                || totalChargeQty > parkingLot.getTotalCapacity()){
+        if(totalChargeQty > parkingLot.getTotalChargeCapacity()
+                || totalQty > parkingLot.getTotalCapacity()){
             isValidData = false;
         }
 
