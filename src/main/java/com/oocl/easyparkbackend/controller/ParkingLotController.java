@@ -40,6 +40,11 @@ public class ParkingLotController {
     }
 
 
+    @PatchMapping("/{parkingLotId}")
+    public ParkingLot updateParkingLot(@PathVariable Integer parkingLotId, @RequestBody ParkingLot parkingLot) {
+        return service.updateParkingLot(parkingLotId, parkingLot);
+    }
+
     @PostMapping("/{parkingLotId}/ratings")
     @ResponseStatus(HttpStatus.CREATED)
     public Rating createRating(@PathVariable Integer parkingLotId, @RequestBody Rating rating) {

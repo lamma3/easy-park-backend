@@ -1,5 +1,6 @@
 package com.oocl.easyparkbackend.service;
 
+import com.oocl.easyparkbackend.exception.ParkingLotNotFoundException;
 import com.oocl.easyparkbackend.model.DistanceCalculator;
 import com.oocl.easyparkbackend.model.ParkingLot;
 import com.oocl.easyparkbackend.repository.ParkingLotRepository;
@@ -62,4 +63,15 @@ public class ParkingLotService {
         return repository.findById(parkingLotId).orElse(null);
     }
 
+    public ParkingLot updateParkingLot(Integer parkingLotId, ParkingLot parkingLot) {
+        ParkingLot parkingLotToBeUpdated = repository.findById(parkingLotId).orElse(null);
+        if(parkingLotToBeUpdated == null){
+            throw new ParkingLotNotFoundException();
+        }
+
+        parkingLotToBeUpdated.update(parkingLot);
+
+        return repository.save(parkingLotToBeUpdated);
+
+    }
 }
