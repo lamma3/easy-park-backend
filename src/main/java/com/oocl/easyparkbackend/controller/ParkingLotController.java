@@ -78,7 +78,6 @@ public class ParkingLotController {
     }
 
     @GetMapping("/bookings/{bookingId}")
-    @ResponseStatus(HttpStatus.CREATED)
     public Booking getBookingById(@PathVariable Integer bookingId) {
         return bookingService.getBookingById(bookingId);
     }

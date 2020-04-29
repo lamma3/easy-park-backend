@@ -21,7 +21,7 @@ public class BookingService {
 
     private enum Status {
         RESERVED,
-        COMPLETE,
+        COMPLETED,
         RATED
     }
 
@@ -86,11 +86,11 @@ public class BookingService {
         if (booking.getStatus() != null) {
             Status status = Status.valueOf(booking.getStatus());
             Status originalStatus = Status.valueOf(targetedBooking.getStatus());
-            if (status == Status.COMPLETE && originalStatus == Status.RESERVED) {
+            if (status == Status.COMPLETED && originalStatus == Status.RESERVED) {
                 targetedBooking.setStatus(booking.getStatus());
                 releaseParkingLotPosition(originalParkingLot, targetedBooking.getIsElectricCar());
             }
-            if (status == Status.RATED && originalStatus == Status.COMPLETE) {
+            if (status == Status.RATED && originalStatus == Status.COMPLETED) {
                 targetedBooking.setStatus(booking.getStatus());
             }
         }
