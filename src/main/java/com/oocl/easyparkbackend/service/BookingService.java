@@ -21,7 +21,8 @@ public class BookingService {
 
     private enum Status {
         RESERVED,
-        COMPLETE
+        COMPLETE,
+        RATED
     }
 
     @Autowired
@@ -88,6 +89,9 @@ public class BookingService {
             if (status == Status.COMPLETE && originalStatus == Status.RESERVED) {
                 targetedBooking.setStatus(booking.getStatus());
                 releaseParkingLotPosition(originalParkingLot, targetedBooking.getIsElectricCar());
+            }
+            if (status == Status.RATED && originalStatus == Status.COMPLETE) {
+                targetedBooking.setStatus(booking.getStatus());
             }
         }
         return bookingRepository.save(targetedBooking);
